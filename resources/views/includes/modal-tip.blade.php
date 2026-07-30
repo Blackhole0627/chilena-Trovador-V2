@@ -111,6 +111,13 @@
 									<ul class="list-unstyled m-0" id="showErrorsTip"></ul>
 								</div>
 
+							<div class="custom-control custom-control-alternative custom-checkbox mb-3 text-left">
+								<input class="custom-control-input" required id="checkRetractoTip" name="accept_retracto" type="checkbox">
+								<label class="custom-control-label" for="checkRetractoTip">
+									<span class="font-12">{{ __('general.accept_retracto') }}</span>
+								</label>
+							</div>
+
 							<div class="text-center">
 								<button type="button" class="btn e-none mt-4" data-dismiss="modal">{{__('admin.cancel')}}</button>
 								<button type="submit" id="tipBtn" class="btn btn-primary mt-4 tipBtn"><i></i> {{__('auth.send')}}</button>
