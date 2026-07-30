@@ -166,7 +166,7 @@
             </form>
           @endif
 
-          @if (! auth()->user()->isSuperAdmin() && $settings->allow_delete_account)
+          @if (! auth()->user()->isSuperAdmin())
           <h5 class="mt-5">{{ __('general.delete_account') }}</h5>
           <small class="w-100">{{ __('general.delete_account_alert') }}</small>
 
@@ -192,17 +192,6 @@
           @endif
         @endif
 
-        @if (!$settings->allow_delete_account)
-          <div class="card mt-4">
-            <div class="card-body">
-              <div class="text-center">
-                <p class="pt-4">{{ __('general.allow_delete_account_notice') }}</p>
-
-                <a href="{{ url('messages', 1) }}" class="btn btn-primary">{{ __('general.send_message_admin') }}</a>
-              </div>
-            </div>
-          </div>
-        @endif
 
         </div><!-- end col-md-6 -->
       </div>
