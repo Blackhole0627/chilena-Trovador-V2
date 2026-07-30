@@ -304,6 +304,7 @@ return array(
 	'verified_account' => 'Verified account!',
 	'validate_dimensions' => 'The photo must be greater than, or equal to :min_width px in width.',
 	'i_agree_with' => 'I agree with:',
+	'accept_retracto' => "I agree that the digital content or service is made available immediately, and I expressly acknowledge that, under Decreto 52/2024, I lose my right of withdrawal once the service has begun.",
 	'pay' => 'Pay',
 	'unlocked_content' => 'and unlock the content of',
 	'non_recurring' => '* Non-recurring',
