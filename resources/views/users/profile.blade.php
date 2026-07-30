@@ -1102,6 +1102,12 @@
                       <span>{{__('general.i_agree_with')}} <a href="{{$settings->link_terms}}" target="_blank">{{__('admin.terms_conditions')}}</a></span>
                     </label>
                   </div>
+                  <div class="custom-control custom-control-alternative custom-checkbox mt-2">
+                    <input class="custom-control-input" required id="checkRetracto" name="accept_retracto" type="checkbox">
+                    <label class="custom-control-label" for="checkRetracto">
+                      <span>{{ __('general.accept_retracto') }}</span>
+                    </label>
+                  </div>
 
                   @if ($taxRatesCount != 0 && auth()->user()->isTaxable()->count())
                   <ul class="list-group list-group-flush border-dashed-radius mt-3">
