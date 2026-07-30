@@ -155,7 +155,7 @@ class ProductsController extends Controller
       'price'       => 'required|numeric|min:' . $this->settings->min_price_product . '|max:' . $this->settings->max_price_product,
       'quantity' => 'required',
       'box_contents' => 'required|max:100',
-      'external_link' => 'url|max:500',
+      'external_link' => 'nullable|url|max:500',
     ], $messages);
 
     if ($validator->fails()) {
@@ -511,7 +511,7 @@ class ProductsController extends Controller
       'price'       => 'required|numeric|min:' . $minPrice . '|max:' . $this->settings->max_price_product,
       'category'     => 'required',
       'delivery_time' => Rule::requiredIf($product->type == 'custom'),
-      'external_link' => 'url|max:500',
+      'external_link' => 'nullable|url|max:500',
       'quantity' => Rule::requiredIf($product->type == 'physical'),
       'box_contents' => [
         'max:100',
