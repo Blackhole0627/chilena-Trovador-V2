@@ -69,7 +69,8 @@ class PayPerViewController extends Controller
 
     //<---- Validation
     $validator = Validator::make($this->request->all(), [
-      'payment_gateway_ppv' => 'required'
+      'payment_gateway_ppv' => 'required',
+      'accept_retracto' => 'accepted'
     ], $messages);
 
     if ($validator->fails()) {
