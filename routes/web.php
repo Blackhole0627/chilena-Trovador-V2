@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GifController;
 use App\Http\Controllers\TipController;
 use App\Http\Controllers\BlogController;
-use App\Http\Controllers\FlowController;
 use App\Http\Controllers\GiftController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LangController;
@@ -1187,13 +1186,3 @@ Route::any('webhook/vault/coco/{mediaId}', [WebhookCoconutController::class, 'we
 // Webhook Moneroo
 Route::post('webhook/moneroo', [AddFundsController::class, 'webhookMoneroo'])->name('webhook.moneroo');
 
-// Webhook Flow
-Route::post('webhook/flow', [FlowController::class, 'webhook'])->name('webhook.flow');
-Route::post('webhook/flow/confirm', [FlowController::class, 'paymentConfirm'])->name('payment.confirm');
-Route::post('webhook/flow/return', [FlowController::class, 'return'])->name('flow.return');
-// Card Register
-Route::post('flow/card/register', [FlowController::class, 'registerCard'])->name('flow.register-card')->middleware('auth');
-Route::post('webhook/flow/card/registered', [FlowController::class, 'cardRegistered'])->name('flow.registered-card');
-Route::post('subscription/flow/cancel/{id}', [FlowController::class, 'cancelSubscription'])->name('flow.cancel-subscription')->middleware('auth');
-// Subscription Flow
- Route::get('payment/flow', [FlowController::class, 'show'])->name('flow')->middleware('auth');
