@@ -679,6 +679,7 @@ class ProductsController extends Controller
         'min:10',
         Rule::requiredIf($item->type == 'physical')
       ],
+      'accept_retracto' => 'accepted',
     ], $messages);
 
     if ($validator->fails()) {

@@ -163,6 +163,13 @@
 									<ul class="list-unstyled m-0" id="showErrorsShopProduct"></ul>
 								</div>
 
+							<div class="custom-control custom-control-alternative custom-checkbox mb-3 text-left">
+								<input class="custom-control-input" required id="checkRetractoBuy" name="accept_retracto" type="checkbox">
+								<label class="custom-control-label" for="checkRetractoBuy">
+									<span class="font-12">{{ __('general.accept_retracto') }}</span>
+								</label>
+							</div>
+
 							<div class="text-center">
 								<button type="submit" @if (Helper::userWallet('balance') == 0) disabled @endif id="shopProductBtn" class="btn btn-primary mt-4 BuyNowBtn">
 									<i></i> {{__('general.pay')}} {{Helper::calculateProductPriceOnStore($product->price, $product->country_free_shipping <> auth()->user()->countries_id ? $product->shipping_fee : 0.00)}} <small>{{$settings->currency_code}}</small>
