@@ -91,6 +91,13 @@
 									<ul class="list-unstyled m-0" id="showErrorsPPV"></ul>
 								</div>
 
+							<div class="custom-control custom-control-alternative custom-checkbox mb-3 text-left">
+								<input class="custom-control-input" required id="checkRetractoPPV" name="accept_retracto" type="checkbox">
+								<label class="custom-control-label" for="checkRetractoPPV">
+									<span class="font-12">{{ __('general.accept_retracto') }}</span>
+								</label>
+							</div>
+
 							<div class="text-center">
 								<button type="submit" id="ppvBtn" class="btn btn-primary mt-4 ppvBtn"><i></i> {{__('general.pay')}} <span class="pricePPV"></span></button>
 
