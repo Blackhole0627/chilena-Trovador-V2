@@ -752,17 +752,26 @@ class AddFundsController extends Controller
       $verifyTxnId = Deposits::whereTxnId($request->transactionID)->first();
 
       if (!isset($verifyTxnId)) {
-        // Insert Deposit
-        $this->deposit(
-          $request->userId,
-          $request->transactionID,
-          $request->amountOriginal,
-          'Mercadopago',
-          $request->userTaxes ?? null
-        );
+        try {
+          \DB::transaction(function () use ($request) {
+            // Insert Deposit
+            $this->deposit(
+              $request->userId,
+              $request->transactionID,
+              $request->amountOriginal,
+              'Mercadopago',
+              $request->userTaxes ?? null
+            );
 
-        // Add Funds to User
-        User::find($request->userId)->increment('wallet', $request->amountOriginal);
+            // Add Funds to User
+            User::find($request->userId)->increment('wallet', $request->amountOriginal);
+          });
+        } catch (\Illuminate\Database\QueryException $e) {
+          // txn_id duplicado (webhook reintentado o clic simultaneo): ya se acredito, se ignora
+          if ($e->getCode() !== '23000') {
+            throw $e;
+          }
+        }
       }
 
       return redirect('my/wallet');
