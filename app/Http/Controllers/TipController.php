@@ -51,6 +51,7 @@ class TipController extends Controller
     $validator = Validator::make($this->request->all(), [
       'amount' => 'required|integer|min:' . $this->settings->min_tip_amount . '|max:' . $this->settings->max_tip_amount,
       'payment_gateway_tip' => 'required',
+      'accept_retracto' => 'accepted',
     ], $messages);
 
     if ($validator->fails()) {

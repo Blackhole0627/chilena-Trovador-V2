@@ -63,6 +63,7 @@ class SubscriptionsController extends Controller
     $validator = Validator::make($this->request->all(), [
       'payment_gateway' => 'required',
       'agree_terms' => 'required',
+      'accept_retracto' => 'accepted',
     ]);
 
     if ($validator->fails()) {

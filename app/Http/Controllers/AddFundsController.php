@@ -81,6 +81,7 @@ class AddFundsController extends Controller
       'payment_gateway' => 'required|check_payment_gateway',
       'image' => 'required_if:payment_gateway,==,Bank|mimes:jpg,gif,png,jpe,jpeg|max:' . $this->settings->file_size_allowed_verify_account . '',
       'agree_terms' => 'required',
+      'accept_retracto' => 'accepted',
     ], $messages);
 
     if ($validator->fails()) {
