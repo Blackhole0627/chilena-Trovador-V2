@@ -24,6 +24,9 @@
           @if ($transactions->count() != 0 && auth()->user()->verified_id == 'yes')
 
             <div class="btn-block mb-3 text-right">
+              @if (request()->is('my/payments/received'))
+              <a href="{{ url('earnings/statements') }}" class="btn btn-sm btn-outline-primary mr-2"><i class="feather icon-file-text mr-1"></i> {{ __('general.monthly_statement') }}</a>
+              @endif
               <span>
                 {{trans('general.filter_by')}}
 
