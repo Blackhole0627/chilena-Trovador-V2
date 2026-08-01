@@ -183,6 +183,12 @@
 
     @endif
 
+    @if (auth()->check() && auth()->id() != $product->user()->id)
+      <a href="{{ url('messages/'.$product->user()->id) }}" class="btn btn-1 btn-outline-primary btn-block mt-2">
+        <i class="feather icon-message-circle mr-1"></i> {{ __('general.contact_seller') }}
+      </a>
+    @endif
+
     @if ($product->price !== '0.00' && $product->external_link ==  '')
       <div class="w-100 d-block mt-3">
         <i class="bi-cart2 mr-2"></i> {{ __('general.purchases') }} ({{ $product->purchases()->count() }})

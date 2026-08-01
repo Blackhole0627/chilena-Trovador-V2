@@ -305,6 +305,7 @@ return array(
 	'verified_account' => 'Cuenta verificada',
 	'validate_dimensions' => 'La foto debe ser mayor o igual a :min_width px de ancho.',
 	'i_agree_with' => 'Estoy de acuerdo con:',
+	'contact_seller' => 'Contactar vendedor',
 	'accept_retracto' => "Acepto que el contenido o servicio digital se pone a disposicion de forma inmediata y reconozco expresamente que, conforme al Decreto 52/2024, pierdo mi derecho a retracto una vez iniciada la prestacion.",
 	'pay' => 'Pagar',
 	'unlocked_content' => 'y desbloquea el contenido de',
