@@ -310,7 +310,7 @@ return array(
 	'net' => 'Neto',
 	'monthly_statement' => 'Liquidacion mensual',
 	'contact_seller' => 'Contactar vendedor',
-	'accept_retracto' => "Acepto que el contenido o servicio digital se pone a disposicion de forma inmediata y reconozco expresamente que, conforme al Decreto 52/2024, pierdo mi derecho a retracto una vez iniciada la prestacion.",
+	'accept_retracto' => "Acepto que el contenido o servicio digital se pone a disposición de forma inmediata y reconozco expresamente que, conforme al Decreto 52/2024, pierdo mi derecho a retracto una vez iniciada la prestación.",
 	'pay' => 'Pagar',
 	'unlocked_content' => 'y desbloquea el contenido de',
 	'non_recurring' => '* No recurrente',
