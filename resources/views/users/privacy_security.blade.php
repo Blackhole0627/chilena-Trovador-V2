@@ -167,6 +167,24 @@
           @endif
 
           @if (! auth()->user()->isSuperAdmin())
+          <h5 class="mt-5">{{ __('general.arco_title') }}</h5>
+          <small class="w-100 d-block mb-2">{{ __('general.arco_subtitle') }}</small>
+          @if (session('arco_success'))
+          <div class="alert alert-success">{{ session('arco_success') }}</div>
+          @endif
+          <form method="POST" action="{{ url('privacy/arco') }}" class="mb-5">
+            @csrf
+            <select name="type" class="form-control mb-2" required>
+              <option value="access">{{ __('general.arco_access') }}</option>
+              <option value="rectification">{{ __('general.arco_rectification') }}</option>
+              <option value="deletion">{{ __('general.arco_deletion') }}</option>
+              <option value="opposition">{{ __('general.arco_opposition') }}</option>
+              <option value="portability">{{ __('general.arco_portability') }}</option>
+            </select>
+            <textarea name="details" class="form-control mb-2" rows="3" placeholder="{{ __('general.arco_details') }}"></textarea>
+            <button type="submit" class="btn btn-main btn-primary pr-3 pl-3"><i class="feather icon-shield mr-1"></i> {{ __('general.arco_send') }}</button>
+          </form>
+
           <h5 class="mt-5">{{ __('general.delete_account') }}</h5>
           <small class="w-100">{{ __('general.delete_account_alert') }}</small>
 
