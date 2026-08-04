@@ -135,6 +135,15 @@
                   </a>
               </li><!-- /end list -->
               @endif
+
+              @if (auth()->user()->hasPermission('arco.requests'))
+              <li class="nav-item">
+                  <a href="{{ url('panel/admin/arco-requests') }}" class="nav-link text-truncate @if (request()->is('panel/admin/arco-requests')) active @endif">
+                      <i class="bi-shield-check me-2"></i>
+                      {{ __('general.arco_requests') }}
+                  </a>
+              </li><!-- /end list -->
+              @endif
               
               @if (auth()->user()->hasPermission('verification_requests'))
               <li class="nav-item">
