@@ -6,6 +6,7 @@ use App\Http\Controllers\GifController;
 use App\Http\Controllers\TipController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\EarningsController;
+use App\Http\Controllers\ArcoController;
 use App\Http\Controllers\GiftController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LangController;
@@ -245,6 +246,7 @@ Route::get('verify/account/{confirmation_code}', [HomeController::class, 'getVer
 	// Privacy and Security
    	Route::get('privacy/security', [UserController::class, 'privacySecurity']);
    	Route::post('privacy/security', [UserController::class, 'savePrivacySecurity']);
+	Route::post('privacy/arco', [ArcoController::class, 'store']);
 
 	Route::post('logout/session/{id}',  [UserController::class, 'logoutSession']);
 
@@ -735,6 +737,8 @@ Route::group(['middleware' => 'private.content'], function() {
 	
 		//Withdrawals
 		Route::get('/withdrawals', [AdminController::class, 'withdrawals'])->name('withdrawals');
+		Route::get('/arco-requests', [ArcoController::class, 'adminIndex'])->name('arco.requests');
+		Route::post('/arco-requests/{id}', [ArcoController::class, 'updateStatus'])->name('arco.requests.update');
 		Route::get('/withdrawal/{id}', [AdminController::class, 'withdrawalsView'])->name('withdrawals');
 		Route::post('/withdrawals/paid/{id}', [AdminController::class, 'withdrawalsPaid']);
 		Route::post('/withdrawals/reject/{id}', [AdminController::class, 'withdrawalsReject'])->name('withdrawals.reject');
