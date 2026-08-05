@@ -7,6 +7,7 @@ use App\Http\Controllers\TipController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\EarningsController;
 use App\Http\Controllers\ArcoController;
+use App\Http\Controllers\PostCommentsController;
 use App\Http\Controllers\GiftController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LangController;
@@ -247,6 +248,8 @@ Route::get('verify/account/{confirmation_code}', [HomeController::class, 'getVer
    	Route::get('privacy/security', [UserController::class, 'privacySecurity']);
    	Route::post('privacy/security', [UserController::class, 'savePrivacySecurity']);
 	Route::post('privacy/arco', [ArcoController::class, 'store']);
+	Route::post('comment/post', [PostCommentsController::class, 'store']);
+	Route::get('comments/post/{id}', [PostCommentsController::class, 'fetch'])->where('id', '[0-9]+');
 
 	Route::post('logout/session/{id}',  [UserController::class, 'logoutSession']);
 
