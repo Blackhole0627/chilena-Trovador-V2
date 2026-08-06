@@ -654,17 +654,27 @@ class Helper
 
 	public static function envUpdate($key, $value, $comma = false)
 	{
+		// append-safe: replace the key line if present, otherwise append it
 		$path = base_path('.env');
 		$value = trim($value);
-		$env = $comma ? '"' . env($key) . '"' : env($key);
 
-		if (file_exists($path)) {
-			file_put_contents($path, str_replace(
-				$key . '=' . $env,
-				$key . '=' . $value,
-				file_get_contents($path)
-			));
+		if (! file_exists($path)) {
+			return;
 		}
+
+		$lines = preg_split('/\r\n|\r|\n/', file_get_contents($path));
+		$found = false;
+		foreach ($lines as $i => $line) {
+			if (strpos($line, $key . '=') === 0) {
+				$lines[$i] = $key . '=' . $value;
+				$found = true;
+			}
+		}
+		if (! $found) {
+			$lines[] = $key . '=' . $value;
+		}
+
+		file_put_contents($path, rtrim(implode("\n", $lines), "\n") . "\n");
 	}
 
 	public static function urlToDomain($url)
