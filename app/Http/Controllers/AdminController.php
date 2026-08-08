@@ -1998,7 +1998,7 @@ class AdminController extends Controller
 
 				\File::delete(env($key));
 
-				$envIcon = 'public/images/icons/' . $filename;
+				$envIcon = '/public/images/icons/' . $filename;
 				Helper::envUpdate($key, $envIcon);
 			}
 		}
