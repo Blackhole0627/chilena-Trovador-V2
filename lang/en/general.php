@@ -327,6 +327,7 @@ return array(
 	'monthly_statement' => 'Monthly statement',
 	'contact_seller' => 'Contact seller',
 	'accept_retracto' => "I agree that the digital content or service is made available immediately, and I expressly acknowledge that, under Decreto 52/2024, I lose my right of withdrawal once the service has begun.",
+	'must_accept_retracto' => "You must accept the withdrawal condition to continue with the call.",
 	'pay' => 'Pay',
 	'unlocked_content' => 'and unlock the content of',
 	'non_recurring' => '* Non-recurring',

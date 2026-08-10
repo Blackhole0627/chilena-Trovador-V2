@@ -39,6 +39,14 @@ final class AudioCallController extends Controller
  
     public function accept($id)
     {
+        // Decreto 52/2024: el comprador debe aceptar el retracto antes del cobro.
+        if (request('accept_retracto') !== 'accepted') {
+            return response()->json([
+                'success' => false,
+                'message' => __('general.must_accept_retracto')
+            ]);
+        }
+
         return DB::transaction(function () use ($id) {
             $audioCall = AudioCall::with(['seller:id,balance'])
                 ->whereId($id)

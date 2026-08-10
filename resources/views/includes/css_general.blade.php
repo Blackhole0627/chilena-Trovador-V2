@@ -150,6 +150,7 @@
   var loading = "{{__('general.loading')}}";
   var please_wait = "{{__('general.please_wait')}}";
   var error_occurred = "{{__('general.error')}}";
+  var must_accept_retracto = "{{__('general.must_accept_retracto')}}";
   var error_oops = "{{ __('general.error_oops') }}";
   var error_reload_page = "{{ __('general.error_reload_page') }}";
   var ok = "{{__('users.ok')}}";

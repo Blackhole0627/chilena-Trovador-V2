@@ -450,8 +450,13 @@
 
     function initializePusher() {
         pusher = new Pusher(PUSHER_APP_KEY, {
+            wsHost: window.location.hostname,
+            wsPort: 443,
+            wssPort: 443,
             cluster: PUSHER_CLUSTER,
-            forceTLS: true
+            forceTLS: true,
+            enabledTransports: ['ws', 'wss'],
+            disableStats: true
         });
         
         timerChannel = pusher.subscribe(PUSHER_CHANNEL);

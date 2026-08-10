@@ -15,6 +15,11 @@
           {{ __('general.video_call_notice') }}
         </small>
 
+        <div class="form-check retracto-call-check text-left mt-3 mb-2">
+          <input type="checkbox" class="form-check-input" id="checkRetractoAudioCall">
+          <label class="form-check-label small" for="checkRetractoAudioCall">{{ __('general.accept_retracto') }}</label>
+        </div>
+
         <div class="call-actions">
           <button class="btn btn-reject rounded-3" data-id id="rejectAudioCall">
             <i class="fas fa-phone-slash mr-2"></i> {{ __('general.reject') }}

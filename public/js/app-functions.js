@@ -202,6 +202,8 @@
 						});
 						incomingVideoModal.show();
 
+						$('#checkRetractoVideoCall').prop('checked', false);
+
 						$('#callerUsername').html(username_seller);
 						$('#callerAmount').html(callerAmount);
 
@@ -246,6 +248,11 @@
 						$('.modal-content-call').on('click', '#acceptCall', function (e) {
 							e.preventDefault();
 
+							if (!$('#checkRetractoVideoCall').is(':checked')) {
+								$('.popout').addClass('popout-error').html(must_accept_retracto).fadeIn('500');
+								return;
+							}
+
 							let element = $(this);
 
 							element.attr({ 'disabled': 'true' });
@@ -256,6 +263,7 @@
 								},
 								type: 'post',
 								url: URL_BASE + '/accept/video-call/' + videoCallId,
+								data: { accept_retracto: 'accepted' },
 								dataType: 'json'
 							}).done(function (data) {
 								if (data.status) {
@@ -332,6 +340,8 @@
 						});
 						incomingAudioModal.show();
 
+						$('#checkRetractoAudioCall').prop('checked', false);
+
 						$('#callerAudioUsername').html(username_seller);
 						$('#callerAudioAmount').html(callerAmount);
 
@@ -376,6 +386,11 @@
 						$('.modal-content-call').on('click', '#acceptAudioCall', function (e) {
 							e.preventDefault();
 
+							if (!$('#checkRetractoAudioCall').is(':checked')) {
+								$('.popout').addClass('popout-error').html(must_accept_retracto).fadeIn('500');
+								return;
+							}
+
 							let element = $(this);
 
 							element.attr({ 'disabled': 'true' });
@@ -386,6 +401,7 @@
 								},
 								type: 'post',
 								url: URL_BASE + '/accept/audio-call/' + audioCallId,
+								data: { accept_retracto: 'accepted' },
 								dataType: 'json'
 							}).done(function (data) {
 								if (data.status) {
