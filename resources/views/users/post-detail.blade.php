@@ -36,8 +36,12 @@
             @include('includes.updates')
           @endforeach
 
-          @if($updatesCount == 0) 
+          @if($updatesCount == 0)
             {{__('general.no_results_found')}}
+          @endif
+
+          @if($updatesCount != 0)
+            @include('includes.post-live-comments')
           @endif
         </div><!-- end col-md-9 -->
 

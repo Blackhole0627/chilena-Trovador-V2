@@ -676,6 +676,12 @@ return array(
 
 	// Version 2.4
 	'creator' => 'Creator',
+	'live_comments' => 'Live comments',
+	'voice_note' => 'Voice note',
+	'recording' => 'Recording',
+	'stop_and_send' => 'Stop and send',
+	'no_comments_yet' => 'No comments yet',
+	'mic_error' => 'We could not access the microphone',
 	'birthdate_changed_info' => 'Can be edited only once',
 	'disable_banner_cookies' => 'Disable cookie policy banner',
 	'has_created_new_post' => 'has created a new post',
