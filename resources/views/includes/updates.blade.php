@@ -10,7 +10,9 @@
 		$creatorLive = Helper::isCreatorLive($getCurrentLiveCreators , $response->creator->id);
 
 		$totalLikes = number_format($response->likes->count() + $response->likes_extras);
-		$totalComments = $response->totalComments();
+		$totalComments = $settings->status_live_comments
+			? \App\Models\PostLiveComments::where('updates_id', $response->id)->count()
+			: $response->totalComments();
 		$mediaCount = $response->media->count();
 		$allFiles = $response->media()->groupBy('type')->get();
 		$getFirstFile = $response->media()->whereIn('type', ['image', 'video'])->where('video_embed', '')->first();

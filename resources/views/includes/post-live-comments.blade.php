@@ -144,8 +144,17 @@ window.plcInit = function(rootId){
   </ul>
 
   <form class="plc-form" autocomplete="off">
+    <div class="plc-tools mb-1" style="position: relative;">
+      <span class="triggerEmoji" data-toggle="dropdown" id="plcEmoji{{ $response->id }}"
+            role="button" aria-haspopup="true" aria-expanded="false" style="font-size:20px; cursor:pointer;">
+        <i class="bi-emoji-smile"></i>
+      </span>
+      <div class="dropdown-menu dropdown-emoji custom-scrollbar" aria-labelledby="plcEmoji{{ $response->id }}">
+        @include('includes.emojis')
+      </div>
+    </div>
     <div class="input-group">
-      <input type="text" class="form-control plc-input" maxlength="100"
+      <input type="text" class="form-control plc-input emojiArea" maxlength="100"
              placeholder="{{ __('general.write_comment') }}">
       @if ($plcIsCreator)
         <button type="button" class="btn btn-outline-secondary plc-record"
