@@ -61,10 +61,8 @@ class PostCommentsController extends Controller
     {
         $post = Updates::findOrFail($id);
 
-        $limit = (int) config('settings.number_comments_show', 6);
-        if ($limit < 1) {
-            $limit = 6;
-        }
+        // Hilo plano en vivo: siempre 6 comentarios visibles (corren en tiempo real).
+        $limit = 6;
 
         $comments = PostLiveComments::where('updates_id', $id)
             ->orderBy('id', 'desc')

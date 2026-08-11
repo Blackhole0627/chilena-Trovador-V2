@@ -171,6 +171,8 @@ return array(
 		'theme' => 'Theme',
 		'number_posts_show' => 'Number of posts show',
 		'number_comments_show' => 'Number of comments show',
+		'live_comments_posts' => 'Live comments on posts',
+		'live_comments_posts_help' => 'When enabled, the post shows a live flat thread with the latest 6 comments and only the creator can reply. When disabled, the normal site comments are used.',
 		'verification_requests' => 'Verification Requests',
 		'see_document_id' => 'See document ID',
 		'delete_confirm_verification' => 'An email will be sent to the user notifying that their request was rejected, the user will not be able to send a request again.',

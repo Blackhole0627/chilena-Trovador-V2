@@ -656,6 +656,10 @@
 @if (! auth()->user()->checkRestriction($response->creator->id))
 <div class="container-comments @if ( ! isset($inPostDetail)) display-none @endif">
 
+@if ($settings->status_live_comments && isset($inPostDetail))
+@include('includes.post-live-comments')
+@else
+
 <div class="container-media">
 @if($response->comments->count() != 0)
 
@@ -794,6 +798,7 @@
 			</div>
 			@endif
 
+			@endif
 			</div><!-- container-comments -->
 		@endif
 

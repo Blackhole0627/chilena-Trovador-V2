@@ -205,6 +205,17 @@
 				</div><!-- end row -->
 
 				<div class="row mb-3">
+					<label class="col-sm-2 col-form-labe text-lg-end">{{ __('admin.live_comments_posts') }}</label>
+					<div class="col-sm-10">
+						<select name="status_live_comments" class="form-select">
+							<option @if( $settings->status_live_comments == 1 ) selected="selected" @endif value="1">{{ __('general.enabled') }}</option>
+							<option @if( $settings->status_live_comments == 0 ) selected="selected" @endif value="0">{{ __('general.disabled') }}</option>
+						</select>
+						<small class="text-muted">{{ __('admin.live_comments_posts_help') }}</small>
+					</div>
+				</div><!-- end row -->
+
+				<div class="row mb-3">
 					<label class="col-sm-2 col-form-labe text-lg-end">{{ __('general.maximum_files_post') }}</label>
 					<div class="col-sm-10">
 						<select name="maximum_files_post" class="form-select">

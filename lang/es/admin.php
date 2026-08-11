@@ -176,6 +176,8 @@ return array(
 		'theme' => 'Tema',
 		'number_posts_show' => 'Número de posts a mostrar',
 		'number_comments_show' => 'Número de comentarios a mostrar',
+		'live_comments_posts' => 'Comentarios en vivo en publicaciones',
+		'live_comments_posts_help' => 'Si está habilitado, la publicación muestra un hilo plano en vivo con los últimos 6 comentarios y solo el creador puede responder. Si está deshabilitado, se usan los comentarios normales del sitio.',
 		'verification_requests' => 'Solicitudes de verificación',
 		'see_document_id' => 'Ver documento ID',
 		'delete_confirm_verification' => 'Se enviará un correo electrónico al usuario notificando que su solicitud fue rechazada, el usuario no podrá enviar una solicitud nuevamente.',

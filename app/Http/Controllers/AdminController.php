@@ -415,6 +415,7 @@ class AdminController extends Controller
 		$sql->comment_length     = $request->comment_length;
 		$sql->number_posts_show  = $request->number_posts_show;
 		$sql->number_comments_show = $request->number_comments_show;
+		$sql->status_live_comments = $request->status_live_comments;
 		$sql->maximum_files_post = $request->maximum_files_post;
 		$sql->maximum_files_msg = $request->maximum_files_msg;
 		$sql->limit_categories = $request->limit_categories;

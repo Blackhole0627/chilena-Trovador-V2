@@ -1,46 +1,47 @@
 @auth
 @php
-  $plcPost = $updates[0];
-  $plcIsCreator = (auth()->id() == $plcPost->user_id);
+  $plcIsCreator = (auth()->id() == $response->creator->id);
 @endphp
-<div class="card widget mt-3" id="plc-widget"
-     data-post="{{ $plcPost->id }}"
+<div class="post-live-comments" id="plc-widget"
+     data-post="{{ $response->id }}"
      data-creator="{{ $plcIsCreator ? '1' : '0' }}"
-     data-fetch="{{ url('comments/post', $plcPost->id) }}"
+     data-fetch="{{ url('comments/post', $response->id) }}"
      data-store="{{ url('comment/post') }}">
-  <div class="card-body">
-    <h6 class="widget-title mb-3"><i class="bi-chat-dots mr-1"></i> {{ __('general.live_comments') }}</h6>
 
-    <ul class="list-unstyled plc-list mb-3" id="plc-list">
-      <li class="text-muted small">{{ __('general.loading') }}</li>
-    </ul>
-
-    <form id="plc-form" autocomplete="off">
-      <div class="input-group">
-        <input type="text" class="form-control" id="plc-input" maxlength="100"
-               placeholder="{{ __('general.write_comment') }}">
-        @if ($plcIsCreator)
-          <button type="button" class="btn btn-outline-secondary" id="plc-record"
-                  title="{{ __('general.voice_note') }}"><i class="bi-mic"></i></button>
-        @endif
-        <button type="submit" class="btn btn-primary" id="plc-send"><i class="bi-send"></i></button>
-      </div>
-      <small class="text-danger d-none mt-1 d-block" id="plc-error"></small>
-      @if ($plcIsCreator)
-        <small class="d-none mt-1 d-block" id="plc-recording">
-          <i class="bi-record-circle text-danger"></i> {{ __('general.recording') }}
-          <a href="#" id="plc-stop" class="ml-1">{{ __('general.stop_and_send') }}</a>
-        </small>
-      @endif
-    </form>
+  <div class="plc-head d-flex align-items-center mb-2">
+    <i class="bi-chat-dots mr-1"></i> <span class="small text-uppercase">{{ __('general.live_comments') }}</span>
   </div>
+
+  <ul class="list-unstyled plc-list mb-3" id="plc-list">
+    <li class="text-muted small">{{ __('general.loading') }}</li>
+  </ul>
+
+  <form id="plc-form" autocomplete="off">
+    <div class="input-group">
+      <input type="text" class="form-control" id="plc-input" maxlength="100"
+             placeholder="{{ __('general.write_comment') }}">
+      @if ($plcIsCreator)
+        <button type="button" class="btn btn-outline-secondary" id="plc-record"
+                title="{{ __('general.voice_note') }}"><i class="bi-mic"></i></button>
+      @endif
+      <button type="submit" class="btn btn-primary" id="plc-send"><i class="bi-send"></i></button>
+    </div>
+    <small class="text-danger d-none mt-1 d-block" id="plc-error"></small>
+    @if ($plcIsCreator)
+      <small class="d-none mt-1 d-block" id="plc-recording">
+        <i class="bi-record-circle text-danger"></i> {{ __('general.recording') }}
+        <a href="#" id="plc-stop" class="ml-1">{{ __('general.stop_and_send') }}</a>
+      </small>
+    @endif
+  </form>
 </div>
 
 <style>
-  .plc-list{max-height:320px;overflow-y:auto}
-  .plc-item{display:flex;align-items:flex-start;gap:6px;margin-bottom:8px}
-  .plc-item .plc-body{word-break:break-word}
-  .plc-audio{height:34px;max-width:100%;vertical-align:middle}
+  .post-live-comments .plc-head{opacity:.7;letter-spacing:.5px}
+  .post-live-comments .plc-list{max-height:340px;overflow-y:auto}
+  .post-live-comments .plc-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px}
+  .post-live-comments .plc-item .plc-body{word-break:break-word}
+  .post-live-comments .plc-audio{height:34px;max-width:100%;vertical-align:middle}
 </style>
 
 <script>
@@ -77,7 +78,7 @@
         ? '<audio class="plc-audio" controls preload="none" src="'+esc(c.media)+'"></audio>'
         : esc(c.comment);
       return '<li class="plc-item" data-id="'+c.id+'">'+
-               '<img src="'+esc(c.avatar)+'" width="24" height="24" class="rounded-circle">'+
+               '<img src="'+esc(c.avatar)+'" width="26" height="26" class="rounded-circle">'+
                '<div><strong>'+esc(c.name||c.username)+'</strong>'+badge+
                '<div class="plc-body">'+body+'</div></div></li>';
     }).join('');

@@ -39,10 +39,6 @@
           @if($updatesCount == 0)
             {{__('general.no_results_found')}}
           @endif
-
-          @if($updatesCount != 0)
-            @include('includes.post-live-comments')
-          @endif
         </div><!-- end col-md-9 -->
 
         <div class="col-md-4 pb-4 py-lg-5">
