@@ -96,14 +96,23 @@ window.plcInit = function(rootId){
     recBtn.addEventListener('click', function(){
       if(!navigator.mediaDevices || !window.MediaRecorder){ alert(L.micErr); return; }
       navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
-        rec = new MediaRecorder(stream); chunks=[];
+        // iOS Safari graba audio/mp4; Chrome y Firefox audio/webm.
+        var mime = '';
+        if(MediaRecorder.isTypeSupported){
+          if(MediaRecorder.isTypeSupported('audio/webm')) mime = 'audio/webm';
+          else if(MediaRecorder.isTypeSupported('audio/mp4')) mime = 'audio/mp4';
+        }
+        rec = mime ? new MediaRecorder(stream, {mimeType: mime}) : new MediaRecorder(stream);
+        chunks=[];
         rec.ondataavailable = function(e){ if(e.data && e.data.size) chunks.push(e.data); };
         rec.onstop = function(){
           stream.getTracks().forEach(function(t){ t.stop(); });
-          var blob = new Blob(chunks, {type:'audio/webm'});
+          var type = rec.mimeType || mime || 'audio/webm';
+          var ext = type.indexOf('mp4') !== -1 ? 'm4a' : (type.indexOf('ogg') !== -1 ? 'ogg' : 'webm');
+          var blob = new Blob(chunks, {type: type});
           var fd = new FormData();
           fd.append('updates_id', postId);
-          fd.append('voice', blob, 'voice.webm');
+          fd.append('voice', blob, 'voice.' + ext);
           send(fd);
           recNote.classList.add('d-none'); recBtn.classList.remove('text-danger');
         };

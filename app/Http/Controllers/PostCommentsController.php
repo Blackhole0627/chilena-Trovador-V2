@@ -24,9 +24,26 @@ class PostCommentsController extends Controller
         $post = Updates::findOrFail($request->updates_id);
         $isCreator = ($post->user_id == auth()->id());
 
+        // Mismas reglas que los comentarios base: respeta el ajuste del creador
+        // y los bloqueos entre usuarios.
+        if (! $post->creator->allow_comments) {
+            return response()->json([
+                'success' => false,
+                'errors' => ['error' => __('general.comments_disabled')],
+            ]);
+        }
+
+        if (! $isCreator && auth()->user()->checkRestriction($post->user_id)) {
+            return response()->json([
+                'success' => false,
+                'errors' => ['error' => __('general.error')],
+            ]);
+        }
+
         $rules = ['updates_id' => 'required|integer'];
         if ($request->hasFile('voice') && $isCreator) {
-            $rules['voice'] = 'mimes:mp3,mpga,wav,ogg,m4a,webm|max:20480';
+            // mp4/aac cubren la nota de voz de iPhone (MediaRecorder graba audio/mp4).
+            $rules['voice'] = 'mimes:mp3,mpga,wav,ogg,m4a,mp4,aac,webm|max:20480';
         } else {
             $rules['comment'] = 'required|max:100|min:1';
         }

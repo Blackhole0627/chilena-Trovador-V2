@@ -659,7 +659,34 @@
 <div class="container-comments @if ( ! isset($inPostDetail)) display-none @endif">
 
 @if ($settings->status_live_comments)
-@include('includes.post-live-comments')
+
+	@if (! $response->creator->allow_comments)
+		<div class="p-2 text-center">
+			{{ __('general.comments_disabled') }}
+		</div>
+	@elseif (auth()->user()->id == $response->creator->id
+
+		|| $response->locked == 'yes'
+		&& $checkUserSubscription
+		&& $response->price == 0.00
+
+		|| $response->locked == 'yes'
+		&& $checkUserSubscription
+		&& $response->price != 0.00
+		&& $checkPayPerView
+
+		|| auth()->check() && $response->locked == 'yes'
+		&& $response->price != 0.00
+		&& ! $checkUserSubscription
+		&& $checkPayPerView
+
+		|| auth()->user()->role == 'admin'
+		&& auth()->user()->permission == 'all'
+		|| $response->locked == 'no')
+
+		@include('includes.post-live-comments')
+	@endif
+
 @else
 
 <div class="container-media">
