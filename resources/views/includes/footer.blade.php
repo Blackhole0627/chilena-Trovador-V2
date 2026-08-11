@@ -196,7 +196,7 @@
       </div>
     @endauth
       <div class="col-md-12 copyright @auth d-none d-lg-block @endauth">
-        &copy; {{date('Y')}} {{$settings->title}}, {{__('emails.rights_reserved')}}
+        &copy; {{date('Y')}} Trovador SpA, {{__('emails.rights_reserved')}}
 
         @if ($settings->show_address_company_footer)
         <small class="ml-2">

@@ -1,41 +1,10 @@
 @auth
 @php
   $plcIsCreator = (auth()->id() == $response->creator->id);
+  $plcId = 'plc-' . $response->id;
 @endphp
-<div class="post-live-comments" id="plc-widget"
-     data-post="{{ $response->id }}"
-     data-creator="{{ $plcIsCreator ? '1' : '0' }}"
-     data-fetch="{{ url('comments/post', $response->id) }}"
-     data-store="{{ url('comment/post') }}">
 
-  <div class="plc-head d-flex align-items-center mb-2">
-    <i class="bi-chat-dots mr-1"></i> <span class="small text-uppercase">{{ __('general.live_comments') }}</span>
-  </div>
-
-  <ul class="list-unstyled plc-list mb-3" id="plc-list">
-    <li class="text-muted small">{{ __('general.loading') }}</li>
-  </ul>
-
-  <form id="plc-form" autocomplete="off">
-    <div class="input-group">
-      <input type="text" class="form-control" id="plc-input" maxlength="100"
-             placeholder="{{ __('general.write_comment') }}">
-      @if ($plcIsCreator)
-        <button type="button" class="btn btn-outline-secondary" id="plc-record"
-                title="{{ __('general.voice_note') }}"><i class="bi-mic"></i></button>
-      @endif
-      <button type="submit" class="btn btn-primary" id="plc-send"><i class="bi-send"></i></button>
-    </div>
-    <small class="text-danger d-none mt-1 d-block" id="plc-error"></small>
-    @if ($plcIsCreator)
-      <small class="d-none mt-1 d-block" id="plc-recording">
-        <i class="bi-record-circle text-danger"></i> {{ __('general.recording') }}
-        <a href="#" id="plc-stop" class="ml-1">{{ __('general.stop_and_send') }}</a>
-      </small>
-    @endif
-  </form>
-</div>
-
+@once
 <style>
   .post-live-comments .plc-head{opacity:.7;letter-spacing:.5px}
   .post-live-comments .plc-list{max-height:340px;overflow-y:auto}
@@ -43,27 +12,28 @@
   .post-live-comments .plc-item .plc-body{word-break:break-word}
   .post-live-comments .plc-audio{height:34px;max-width:100%;vertical-align:middle}
 </style>
-
 <script>
-(function(){
-  var w = document.getElementById('plc-widget');
-  if(!w) return;
+window.plcLang = {
+  creator: @json(__('general.creator')),
+  empty:   @json(__('general.no_comments_yet')),
+  micErr:  @json(__('general.mic_error'))
+};
+window.plcInit = function(rootId){
+  var w = document.getElementById(rootId);
+  if(!w || w.dataset.plcReady) return;
+  w.dataset.plcReady = '1';
   var postId    = w.getAttribute('data-post');
   var isCreator = w.getAttribute('data-creator') === '1';
   var fetchUrl  = w.getAttribute('data-fetch');
   var storeUrl  = w.getAttribute('data-store');
-  var list  = document.getElementById('plc-list');
-  var form  = document.getElementById('plc-form');
-  var input = document.getElementById('plc-input');
-  var errEl = document.getElementById('plc-error');
+  var list  = w.querySelector('.plc-list');
+  var form  = w.querySelector('.plc-form');
+  var input = w.querySelector('.plc-input');
+  var errEl = w.querySelector('.plc-error');
   var meta  = document.querySelector('meta[name="csrf-token"]');
   var token = meta ? meta.getAttribute('content') : '';
-  var L = {
-    creator: @json(__('general.creator')),
-    empty:   @json(__('general.no_comments_yet')),
-    micErr:  @json(__('general.mic_error'))
-  };
-  var lastSig = null;
+  var L = window.plcLang || {};
+  var lastSig = null, timer = null;
 
   function esc(s){ var d=document.createElement('div'); d.textContent = (s==null?'':s); return d.innerHTML; }
 
@@ -119,9 +89,9 @@
   });
 
   if(isCreator){
-    var recBtn = document.getElementById('plc-record');
-    var recNote= document.getElementById('plc-recording');
-    var stopLnk= document.getElementById('plc-stop');
+    var recBtn = w.querySelector('.plc-record');
+    var recNote= w.querySelector('.plc-recording');
+    var stopLnk= w.querySelector('.plc-stop');
     var rec=null, chunks=[];
     recBtn.addEventListener('click', function(){
       if(!navigator.mediaDevices || !window.MediaRecorder){ alert(L.micErr); return; }
@@ -144,8 +114,54 @@
     stopLnk.addEventListener('click', function(e){ e.preventDefault(); if(rec && rec.state!=='inactive') rec.stop(); });
   }
 
-  load();
-  setInterval(load, 5000);
-})();
+  // Lazy polling: only poll while the widget is actually visible (feed comments are collapsed).
+  function start(){ if(timer) return; load(); timer = setInterval(load, 5000); }
+  function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ e.isIntersecting ? start() : stop(); });
+    });
+    io.observe(w);
+  } else {
+    start();
+  }
+};
 </script>
+@endonce
+
+<div class="post-live-comments" id="{{ $plcId }}"
+     data-post="{{ $response->id }}"
+     data-creator="{{ $plcIsCreator ? '1' : '0' }}"
+     data-fetch="{{ url('comments/post', $response->id) }}"
+     data-store="{{ url('comment/post') }}">
+
+  <div class="plc-head d-flex align-items-center mb-2">
+    <i class="bi-chat-dots mr-1"></i> <span class="small text-uppercase">{{ __('general.live_comments') }}</span>
+  </div>
+
+  <ul class="list-unstyled plc-list mb-3">
+    <li class="text-muted small">{{ __('general.loading') }}</li>
+  </ul>
+
+  <form class="plc-form" autocomplete="off">
+    <div class="input-group">
+      <input type="text" class="form-control plc-input" maxlength="100"
+             placeholder="{{ __('general.write_comment') }}">
+      @if ($plcIsCreator)
+        <button type="button" class="btn btn-outline-secondary plc-record"
+                title="{{ __('general.voice_note') }}"><i class="bi-mic"></i></button>
+      @endif
+      <button type="submit" class="btn btn-primary plc-send"><i class="bi-send"></i></button>
+    </div>
+    <small class="text-danger d-none mt-1 d-block plc-error"></small>
+    @if ($plcIsCreator)
+      <small class="d-none mt-1 d-block plc-recording">
+        <i class="bi-record-circle text-danger"></i> {{ __('general.recording') }}
+        <a href="#" class="ml-1 plc-stop">{{ __('general.stop_and_send') }}</a>
+      </small>
+    @endif
+  </form>
+</div>
+
+<script>window.plcInit(@json($plcId));</script>
 @endauth

@@ -1,7 +1,7 @@
 <div class="card border-0 bg-transparent">
   <div class="card-body p-0">
     <small class="text-muted">
-      &copy; {{date('Y')}} {{$settings->title}}, {{__('emails.rights_reserved')}}
+      &copy; {{date('Y')}} Trovador SpA, {{__('emails.rights_reserved')}}
 
       @if ($settings->show_address_company_footer)
           {{ $settings->company }} - {{ __('general.address') }}: {{ $settings->address }} {{ $settings->city }} {{ $settings->country }}

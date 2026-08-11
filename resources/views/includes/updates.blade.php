@@ -656,7 +656,7 @@
 @if (! auth()->user()->checkRestriction($response->creator->id))
 <div class="container-comments @if ( ! isset($inPostDetail)) display-none @endif">
 
-@if ($settings->status_live_comments && isset($inPostDetail))
+@if ($settings->status_live_comments)
 @include('includes.post-live-comments')
 @else
 
