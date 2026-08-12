@@ -44,6 +44,10 @@ class PostCommentsController extends Controller
         if ($request->hasFile('voice') && $isCreator) {
             // mp4/aac cubren la nota de voz de iPhone (MediaRecorder graba audio/mp4).
             $rules['voice'] = 'mimes:mp3,mpga,wav,ogg,m4a,mp4,aac,webm|max:20480';
+        } elseif ($request->filled('sticker')) {
+            $rules['sticker'] = 'string|max:500|starts_with:http';
+        } elseif ($request->filled('gif_image')) {
+            $rules['gif_image'] = 'string|max:500|starts_with:http';
         } else {
             $rules['comment'] = 'required|max:100|min:1';
         }
@@ -57,6 +61,8 @@ class PostCommentsController extends Controller
         $c->user_id = auth()->id();
         $c->updates_id = $post->id;
         $c->comment = $request->comment ? trim(Helper::checkTextDb($request->comment)) : null;
+        $c->sticker = $request->filled('sticker') ? $request->sticker : null;
+        $c->gif_image = $request->filled('gif_image') ? $request->gif_image : null;
 
         if ($request->hasFile('voice') && $isCreator) {
             $ext = $request->file('voice')->extension();
@@ -74,16 +80,22 @@ class PostCommentsController extends Controller
      * Devuelve los ultimos comentarios de la publicacion (para el polling).
      * Limite reutiliza el ajuste existente number_comments_show.
      */
-    public function fetch($id)
+    public function fetch(Request $request, $id)
     {
         $post = Updates::findOrFail($id);
 
-        // Hilo plano en vivo: siempre 6 comentarios visibles (corren en tiempo real).
-        $limit = 6;
+        // Hilo plano en vivo sin limite total: se cargan por paginas con "Ver mas".
+        $perPage = 10;
 
-        $comments = PostLiveComments::where('updates_id', $id)
-            ->orderBy('id', 'desc')
-            ->take($limit)
+        $total = PostLiveComments::where('updates_id', $id)->count();
+
+        $query = PostLiveComments::where('updates_id', $id)->orderBy('id', 'desc');
+
+        if ($request->filled('before')) {
+            $query->where('id', '<', (int) $request->before);
+        }
+
+        $comments = $query->take($perPage)
             ->get()
             ->reverse()
             ->values();
@@ -97,10 +109,17 @@ class PostCommentsController extends Controller
                 'avatar' => $u ? Helper::getFile(config('path.avatar') . $u->avatar) : '',
                 'comment' => $c->comment,
                 'media' => $c->media ? Helper::getFile(config('path.music') . $c->media) : null,
+                'sticker' => $c->sticker,
+                'gif_image' => $c->gif_image,
                 'is_creator' => (bool) ($u && $c->user_id == $post->user_id),
             ];
         });
 
-        return response()->json(['success' => true, 'comments' => $data]);
+        return response()->json([
+            'success' => true,
+            'comments' => $data,
+            'total' => $total,
+            'total_label' => trans_choice('general.comment_comments', $total, ['total' => number_format($total)]),
+        ]);
     }
 }

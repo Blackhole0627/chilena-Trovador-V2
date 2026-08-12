@@ -15,6 +15,8 @@ class PostLiveComments extends Model
         'updates_id',
         'comment',
         'media',
+        'sticker',
+        'gif_image',
     ];
 
     // Convencion Sponzy: la relacion devuelve el modelo.
