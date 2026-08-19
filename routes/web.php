@@ -310,6 +310,7 @@ Route::get('verify/account/{confirmation_code}', [HomeController::class, 'getVer
 	Route::get('my/payments/received',[UserController::class, 'myPayments']);
 	Route::get('earnings/statements', [EarningsController::class, 'statements']);
 	Route::get('earnings/{year}/{month}/pdf', [EarningsController::class, 'downloadPdf'])->where(['year' => '[0-9]{4}', 'month' => '[0-9]{1,2}']);
+	Route::get('earnings/{year}/{month}/download-pdf', [EarningsController::class, 'downloadPdf'])->where(['year' => '[0-9]{4}', 'month' => '[0-9]{1,2}']);
 	Route::get('payments/invoice/{id}',[UserController::class, 'invoice']);
 
 	// Payout Method

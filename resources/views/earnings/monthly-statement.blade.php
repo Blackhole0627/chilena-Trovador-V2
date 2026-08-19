@@ -51,6 +51,27 @@
     </tbody>
   </table>
 
+  <table class="detail" style="margin-top: 18px;">
+    <thead>
+      <tr>
+        <th>{{ __('general.type') }}</th>
+        <th class="text-right">{{ __('general.amount') }}</th>
+        <th class="text-right">{{ __('general.platform') }}</th>
+        <th class="text-right">{{ __('general.net') }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach ($transactions->groupBy('type') as $type => $group)
+      <tr>
+        <td>{{ __('general.' . $type) }} ({{ $group->count() }})</td>
+        <td class="text-right">{{ Helper::amountFormatDecimal($group->sum('amount')) }}</td>
+        <td class="text-right">{{ Helper::amountFormatDecimal($group->sum('amount') - $group->sum('earning_net_user')) }}</td>
+        <td class="text-right">{{ Helper::amountFormatDecimal($group->sum('earning_net_user')) }}</td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
+
   <table class="totals">
     <tr>
       <td>{{ __('general.amount') }}</td>
